@@ -19,16 +19,26 @@
 <script>
     // Function to fetch schedule data from JSON file
     async function fetchSchedule() {
-        const response = await fetch('schedule.json');
-        const data = await response.json();
-        return data;
+        try {
+            const response = await fetch('Schedule.json');
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching schedule data:', error);
+            return null;
+        }
     }
 
-    // Function to calculate the time until the next class
-    function calculateNextClass(schedule) {
+    // The thing to calculate the time until the next class
+    async function calculateNextClass() {
         const now = new Date();
         const dayOfWeek = now.toLocaleString('en-US', { weekday: 'long' });
         const currentTime = now.getHours() * 60 + now.getMinutes();
+
+        const schedule = await fetchSchedule();
+        if (!schedule || !schedule[dayOfWeek]) {
+            return { class: "No classes today", time: 0 };
+        }
 
         const classesToday = schedule[dayOfWeek];
         for (let i = 0; i < classesToday.length; i++) {
@@ -41,28 +51,25 @@
         return { class: "No classes left for today", time: 0 };
     }
 
-    // Function to convert time in HH:mm format to minutes since midnight
+    // Function to convert time in Hours and minutes format to minutes since midnight
     function convertToMinutes(timeString) {
         const [hours, minutes] = timeString.split(":").map(Number);
         return hours * 60 + minutes;
     }
 
     // Function to update the timer display
-    function updateTimer(schedule) {
-        const nextClass = calculateNextClass(schedule);
+    async function updateTimer() {
+        const nextClass = await calculateNextClass();
         const hours = Math.floor(nextClass.time / 60);
         const minutes = nextClass.time % 60;
-        const seconds = 60 - new Date().getSeconds(); // Adjusting for seconds
+        const seconds = 60 - new Date().getSeconds(); 
 
         document.getElementById("class-info").textContent = `Next Class: ${nextClass.class}`;
         document.getElementById("countdown").textContent = `Time until next class: ${hours}h ${minutes}m ${seconds}s`;
     }
 
-    // Fetch schedule data and start updating timer
-    fetchSchedule().then(schedule => {
-        updateTimer(schedule);
-        setInterval(() => updateTimer(schedule), 1000); // Update timer every second
-    });
+    // Timer Display
+    setInterval(updateTimer, 1000);
 </script>
 </body>
 </html>
