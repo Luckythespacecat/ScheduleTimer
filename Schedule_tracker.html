@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Timer</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<h1>Class Timer</h1>
+<p id="class-info"></p>
+<p id="countdown"></p>
+
+<script>
+    // Schedule data, can be easily updated from the json file!
+    async function fetchSchedule() {
+        const response = await fetch('Schedule.json');
+        const data = await response.json();
+        return data;
+    }
+
+    // The thing to calculate the time until the next class
+    function calculateNextClass() {
+        const now = new Date();
+        const dayOfWeek = now.toLocaleString('en-US', { weekday: 'long' });
+        const currentTime = now.getHours() * 60 + now.getMinutes();
+
+        const classesToday = schedule[dayOfWeek];
+        for (let i = 0; i < classesToday.length; i++) {
+            const classStart = convertToMinutes(classesToday[i].start);
+            if (classStart > currentTime) {
+                const timeUntilNextClass = classStart - currentTime;
+                return { class: classesToday[i].class, time: timeUntilNextClass };
+            }
+        }
+        return { class: "No classes left for today", time: 0 };
+    }
+
+    // Function to convert time in Hours and minutes format to minutes since midnight
+    function convertToMinutes(timeString) {
+        const [hours, minutes] = timeString.split(":").map(Number);
+        return hours * 60 + minutes;
+    }
+
+    // Function to update the timer display
+    function updateTimer() {
+        const nextClass = calculateNextClass();
+        const hours = Math.floor(nextClass.time / 60);
+        const minutes = nextClass.time % 60;
+        const seconds = 60 - new Date().getSeconds(); 
+
+        document.getElementById("class-info").textContent = `Next Class: ${nextClass.class}`;
+        document.getElementById("countdown").textContent = `Time until next class: ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    // Timer Display
+    setInterval(updateTimer, 1000);
+</script>
+</body>
+</html>
