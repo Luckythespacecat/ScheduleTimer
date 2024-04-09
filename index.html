@@ -17,30 +17,38 @@
 <p id="countdown"></p>
 
 <script>
-    // Function to fetch schedule data from JSON file
-    async function fetchSchedule() {
-        try {
-            const response = await fetch('Schedule.json');
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error fetching schedule data:', error);
-            return null;
+// Function to fetch schedule from JSON file
+async function fetchSchedule() {
+    try {
+        const response = await fetch('Schedule.json');
+        if (!response.ok) {
+            throw new Error('Failed to fetch schedule');
         }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching schedule:', error);
+        return null;
     }
+}
+
 
     // The thing to calculate the time until the next class
     async function calculateNextClass() {
+        const schedule = await fetchSchedule();
+        if (!schedule) {
+            return { class: "Error fetching schedule", time: 0 };
+        }
+
         const now = new Date();
         const dayOfWeek = now.toLocaleString('en-US', { weekday: 'long' });
         const currentTime = now.getHours() * 60 + now.getMinutes();
 
-        const schedule = await fetchSchedule();
-        if (!schedule || !schedule[dayOfWeek]) {
+        const classesToday = schedule[dayOfWeek];
+        if (!classesToday || classesToday.length === 0) {
             return { class: "No classes today", time: 0 };
         }
 
-        const classesToday = schedule[dayOfWeek];
         for (let i = 0; i < classesToday.length; i++) {
             const classStart = convertToMinutes(classesToday[i].start);
             if (classStart > currentTime) {
