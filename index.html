@@ -17,15 +17,15 @@
 <p id="countdown"></p>
 
 <script>
-    // Schedule data, can be easily updated from the json file!
+    // Function to fetch schedule data from JSON file
     async function fetchSchedule() {
-        const response = await fetch('Schedule.json');
+        const response = await fetch('schedule.json');
         const data = await response.json();
         return data;
     }
 
-    // The thing to calculate the time until the next class
-    function calculateNextClass() {
+    // Function to calculate the time until the next class
+    function calculateNextClass(schedule) {
         const now = new Date();
         const dayOfWeek = now.toLocaleString('en-US', { weekday: 'long' });
         const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -41,25 +41,28 @@
         return { class: "No classes left for today", time: 0 };
     }
 
-    // Function to convert time in Hours and minutes format to minutes since midnight
+    // Function to convert time in HH:mm format to minutes since midnight
     function convertToMinutes(timeString) {
         const [hours, minutes] = timeString.split(":").map(Number);
         return hours * 60 + minutes;
     }
 
     // Function to update the timer display
-    function updateTimer() {
-        const nextClass = calculateNextClass();
+    function updateTimer(schedule) {
+        const nextClass = calculateNextClass(schedule);
         const hours = Math.floor(nextClass.time / 60);
         const minutes = nextClass.time % 60;
-        const seconds = 60 - new Date().getSeconds(); 
+        const seconds = 60 - new Date().getSeconds(); // Adjusting for seconds
 
         document.getElementById("class-info").textContent = `Next Class: ${nextClass.class}`;
         document.getElementById("countdown").textContent = `Time until next class: ${hours}h ${minutes}m ${seconds}s`;
     }
 
-    // Timer Display
-    setInterval(updateTimer, 1000);
+    // Fetch schedule data and start updating timer
+    fetchSchedule().then(schedule => {
+        updateTimer(schedule);
+        setInterval(() => updateTimer(schedule), 1000); // Update timer every second
+    });
 </script>
 </body>
 </html>
