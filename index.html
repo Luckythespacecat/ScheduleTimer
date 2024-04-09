@@ -53,8 +53,8 @@
         const minutes = nextClass.time % 60;
         const seconds = 60 - new Date().getSeconds(); 
 
-        document.getElementById("class-info").textContent = `Next Class: ${nextClass.class}`;
-        document.getElementById("countdown").textContent = `Time until next class: ${hours}h ${minutes}m ${seconds}s`;
+        document.getElementById("class-info").textContent = `Next Period: ${nextClass.class}`;
+        document.getElementById("countdown").textContent = `Time until next Period: ${hours}h ${minutes}m ${seconds}s`;
     }
 
     // Timer Display
