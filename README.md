@@ -1,5 +1,4 @@
-# [Schedule Timer](https://luckythespacecat.github.io/ScheduleTimer/
-)
+# <h1>Schedule Timer</h1>
 A Timer that easily displays classes based on a schedule.
 
 This is a cool timer that tells you when your next class is and how much time you have left until it starts. It's like having a personal assistant for your school schedule!
