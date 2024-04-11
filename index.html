@@ -22,6 +22,7 @@
 <p id="countdown"></p>
 <script type="text/javascript" src="Schedule.js"></script>
 <script>
+
     // The thing to calculate the time until the next class
     function calculateNextClass() {
         const now = new Date();
@@ -33,10 +34,10 @@
             const classStart = convertToMinutes(classesToday[i].start);
             if (classStart > currentTime) {
                 const timeUntilNextClass = classStart - currentTime;
-                return { class: classesToday[i].class, time: timeUntilNextClass };
+                return { currentClass: (i > 0) ? classesToday[i - 1].class : "No ongoing class", nextClass: classesToday[i].class, time: timeUntilNextClass };
             }
         }
-        return { class: "No classes left for today", time: 0 };
+        return { currentClass: "No ongoing class", nextClass: "No classes left for today", time: 0 };
     }
 
     // Function to convert time in Hours and minutes format to minutes since midnight
@@ -47,12 +48,12 @@
 
     // Function to update the timer display
     function updateTimer() {
-        const nextClass = calculateNextClass();
-        const hours = Math.floor(nextClass.time / 60);
-        const minutes = nextClass.time % 60;
+        const { currentClass, nextClass, time } = calculateNextClass();
+        const hours = Math.floor(time / 60);
+        const minutes = time % 60;
         const seconds = 60 - new Date().getSeconds(); 
 
-        document.getElementById("class-info").innerHTML = `<span style="font-size: 24px; font-weight: bold;">${new Date().toLocaleString('en-US', { weekday: 'long' })}</span><br>Next Class: <span style="font-size: 24px; font-weight: bold;">${nextClass.class}</span>`;
+        document.getElementById("class-info").innerHTML = `<span style="font-size: 24px; font-weight: bold;">${new Date().toLocaleString('en-US', { weekday: 'long' })}</span><br>Current Class: <span style="font-size: 24px; font-weight: bold;">${currentClass}</span><br>Next Class: <span style="font-size: 24px; font-weight: bold;">${nextClass}</span>`;
         document.getElementById("countdown").textContent = `Time until next class: ${hours}h ${minutes}m ${seconds}s`;
     }
 
