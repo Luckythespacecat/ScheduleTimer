@@ -5,7 +5,7 @@ This is a cool timer that tells you when your next class is and how much time yo
 
 Here's how it works:
 
-Fetches Your Schedule: First, the timer reads your school schedule from a json file called schedule.json. This way it can be easily changed without having to edit the html element of your code.
+Fetches Your Schedule: First, the timer reads your school schedule from the Schedule.js file. This way it can be easily changed without having to edit the html element of your code.
 
 Calculates Next Class: Once it knows your schedule, the timer figures out which class you have next and how long until it starts.
 
