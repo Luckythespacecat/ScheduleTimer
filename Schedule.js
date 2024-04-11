@@ -30,7 +30,7 @@ const schedule = {
         "Thursday": [
             { "class": "1/5", "start": "08:30", "end": "09:49" },
             { "class": "2/6", "start": "09:55", "end": "11:19" },
-            { "class": "Advisory", "start": "11:25", "end": "12:10" },
+            { "class": "Spartan Academy", "start": "11:25", "end": "12:10" },
             { "class": "Lunch A", "start": "12:10", "end": "12:40" },
             { "class": "3A/7A", "start": "12:46", "end": "14:06" },
             { "class": "3B/7B", "start": "12:16", "end": "13:36" },
@@ -40,7 +40,7 @@ const schedule = {
         "Friday": [
             { "class": "1/5", "start": "08:30", "end": "09:49" },
             { "class": "2/6", "start": "09:55", "end": "11:19" },
-            { "class": "Advisory", "start": "11:25", "end": "12:10" },
+            { "class": "Spartan Academy", "start": "11:25", "end": "12:10" },
             { "class": "Lunch A", "start": "12:10", "end": "12:40" },
             { "class": "3A/7A", "start": "12:46", "end": "14:06" },
             { "class": "3B/7B", "start": "12:16", "end": "13:36" },
