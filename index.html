@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script type="text/javascript" src="Schedule.js"></script>
 <title>Class Timer</title>
 <style>
     body {
@@ -16,17 +15,11 @@
 <h1>Class Timer</h1>
 <p id="class-info"></p>
 <p id="countdown"></p>
-
+<script type="text/javascript" src="Schedule.js"></script>
 <script>
-    // Schedule data, fetched from a JSON file
-    async function fetchSchedule() {
-        const response = await fetch('Schedule.json');
-        const jsonData = await response.json();
-        return jsonData;
-    }
 
     // The thing to calculate the time until the next class
-    function calculateNextClass(schedule) {
+    function calculateNextClass() {
         const now = new Date();
         const dayOfWeek = now.toLocaleString('en-US', { weekday: 'long' });
         const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -49,20 +42,18 @@
     }
 
     // Function to update the timer display
-    function updateTimer(nextClass) {
+    function updateTimer() {
+        const nextClass = calculateNextClass();
         const hours = Math.floor(nextClass.time / 60);
         const minutes = nextClass.time % 60;
         const seconds = 60 - new Date().getSeconds(); 
 
-        document.getElementById("class-info").textContent = `Next Period: ${nextClass.class}`;
-        document.getElementById("countdown").textContent = `Time until next Period: ${hours}h ${minutes}m ${seconds}s`;
+        document.getElementById("class-info").textContent = `Next Class: ${nextClass.class}`;
+        document.getElementById("countdown").textContent = `Time until next class: ${hours}h ${minutes}m ${seconds}s`;
     }
 
     // Timer Display
-    (async function() {
-        const schedule = await fetchSchedule();
-        setInterval(() => updateTimer(calculateNextClass(schedule)), 1000);
-    })();
+    setInterval(updateTimer, 1000);
 </script>
 </body>
 </html>
