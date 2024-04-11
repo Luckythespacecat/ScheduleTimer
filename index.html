@@ -53,9 +53,9 @@
         const minutes = time % 60;
         const seconds = 60 - new Date().getSeconds(); 
 
-        document.getElementById("class-info").innerHTML = `<span style="font-size: 24px; font-weight: bold;">${new Date().toLocaleString('en-US', { weekday: 'long' })}</span><br>Current Class: <span style="font-size: 24px; font-weight: bold;">${currentClass}</span><br>Next Class: <span style="font-size: 24px; font-weight: bold;">${nextClass}</span>`;
+        document.getElementById("class-info").innerHTML = `<span style="font-size: 24px; font-weight: bold;">${new Date().toLocaleString('en-US', { weekday: 'long' })}</span><br>Current Class: <span style="font-size: 24px; font-weight: bold;">${currentClass}</span><br>Next Class: <span style="font-size: 18px;">${nextClass}</span>`;
         document.getElementById("countdown").textContent = `Time until next class: ${hours}h ${minutes}m ${seconds}s`;
-    }
+}
 
     // Timer Display
     setInterval(updateTimer, 1000);
