@@ -1,4 +1,4 @@
-{
+const schedule = {
         "Monday": [
             { "class": "1/5", "start": "08:30", "end": "09:54" },
             { "class": "2/6", "start": "10:00", "end": "11:24" },
@@ -47,4 +47,4 @@
             { "class": "Lunch B", "start": "13:36", "end": "14:06" },
             { "class": "4/8", "start": "14:12", "end": "15:30" }
         ]
-    }
+    };
